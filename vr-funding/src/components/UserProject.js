@@ -7,6 +7,8 @@ import { fetchUserProjects } from "../actions/index";
 
 import EditProjectForm from "./EditProjectForm";
 
+import { Button, Card, Descriptions, Popconfirm, message } from "antd";
+
 const UserProject = ({ project, ...props }) => {
   const [showForm, setShowForm] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -15,12 +17,12 @@ const UserProject = ({ project, ...props }) => {
     setShowForm(!showForm);
   };
 
-  const handleShowDelete = (e) => {
-    setShowDelete(!showDelete);
-  };
+  // const handleShowDelete = (e) => {
+  //   setShowDelete(!showDelete);
+  // };
 
   const handleDelete = (e) => {
-    setShowDelete(!showDelete);
+    message.success("Project Deleted!");
     axiosWithAuth()
       .delete(`projects/${project.project_id}`)
       .then((res) => {
@@ -28,33 +30,55 @@ const UserProject = ({ project, ...props }) => {
       });
   };
 
+  const handleCancel = () => {
+    message.error("Aborted");
+  };
+
   return (
     <div className="project-card-container">
-      <div>{project.project_title}</div>
-      <div>{project.project_description}</div>
-      <div>{project.project_type}</div>
-      <div>{project.mission_statement}</div>
-      <div>{project.funding_amount}</div>
-      <div>{project.amount_raised}</div>
-      <div>{project.project_timeline}</div>
-      <div className="buttons-container">
-        <button onClick={handleEdit}>Edit Project</button>
-        <button onClick={handleShowDelete}>Delete Project</button>
-      </div>
-
-      {showForm === true ? (
-        <div className="">
-          <EditProjectForm project={project} />
+      <Card title={project.project_title} style={{ width: 300 }}>
+        <Descriptions label="Description" layout="vertical" bordered>
+          <Descriptions.Item label="Description">
+            {project.project_description}
+          </Descriptions.Item>
+        </Descriptions>
+        {/* <br />
+        Type: <br />
+        {project.project_type}
+        <br />
+        Mission Statement: <br />
+        {project.mission_statement}
+        <br />
+        Progress: <br />${project.funding_amount}/{project.amount_raised}
+        <br />
+        {project.project_timeline}
+        <br /> */}
+        <br />
+        <div className="buttons-container">
+          <Button onClick={handleEdit}>Edit Project</Button>
+          <Popconfirm
+            title="Are you sure you'd like to delete this project?"
+            onConfirm={handleDelete}
+            onCancel={handleCancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button>Delete Project</Button>
+          </Popconfirm>
         </div>
-      ) : null}
-
-      {showDelete === true ? (
-        <div>
-          <div>Are you sure you would like to delete?</div>
-          <button onClick={handleDelete}>Delete</button>
-          <button onClick={handleShowDelete}>Cancel</button>
-        </div>
-      ) : null}
+        {showForm === true ? (
+          <div className="">
+            <EditProjectForm project={project} />
+          </div>
+        ) : null}
+        {/* {showDelete === true ? (
+          <div>
+            <div>Are you sure you would like to delete?</div>
+            <Button onClick={handleDelete}>Delete</Button>
+            <Button onClick={handleShowDelete}>Cancel</Button>
+          </div>
+        ) : null} */}
+      </Card>
     </div>
   );
 };

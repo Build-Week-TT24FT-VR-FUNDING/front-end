@@ -8,8 +8,6 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
-import { ThemeProvider } from "styled-components";
-import theme from "./Theme";
 import reducer from "./reducers";
 
 const composeEnhancers = window.REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
@@ -20,9 +18,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

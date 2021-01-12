@@ -1,88 +1,48 @@
 import React, { useEffect } from "react";
-import { useRouteMatch } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { fetchProjects } from "../actions/index";
-import styled from "styled-components";
 
-const ProjListStyled = styled.div` 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-content: space-between;
-  margin: 10px;
-`;
+import Project from "./Project";
+import Loading from "./Loading";
 
-const ProjStyled = styled.div` 
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-content: space-between;
-  border: 2px solid #46e38f;
-  box-shadow: 0px 1px 6px -2px #807f7f;
-  border-radius: 8px;
-  margin-top:10px;
-`;
+import { List } from "antd";
 
-const ProjStyledSubA = styled.div` 
-  color: ${(pr) => pr.theme.secondaryColor};
-  font-size: "1.5rem";
-  font-weight: normal;
-`;
-
-const ProjStyledSubB = styled.div` 
-  color: ${(pr) => pr.theme.secondaryColor};
-  font-size: "3rem";
-  font-weight: bold;
-`;
+import "../App.css";
 
 const ProjectList = (props) => {
   const { projects } = props;
 
-  const { url } = useRouteMatch();
+  console.log("projects: ", projects);
 
   useEffect(() => {
     return props.fetchProjects();
   }, []);
 
   return (
+    <div className="project-page-container">
+      {props.isLoading === true ? <Loading /> : <h2>Project List</h2>}
+      <br />
+      <br />
+      <div>
+        <List
+          grid={{ gutter: 16, column: 3 }}
+          dataSource={projects}
+          renderItem={(project) => (
+            <List.Item>
+              <Project key={project.project_id} project={project} />
+            </List.Item>
+          )}
+        />
 
-    <ProjListStyled>
-        {projects.map((project) => (
-          <ProjStyled>
-    
-            <ProjStyledSubB> 
-              <p>{project.project_title}</p>        
-            </ProjStyledSubB>
-         
-            <ProjStyledSubA>         
-              <p>{project.project_description}</p>         
-            </ProjStyledSubA>
-
-            <ProjStyledSubA>       
-              <p>
-              <ProjStyledSubB>Mission Statement:</ProjStyledSubB> <br />
-                {project.mission_statement}
-              </p>
-            </ProjStyledSubA>
-
-            <ProjStyledSubA>           
-              <p><ProjStyledSubB>Timeline:</ProjStyledSubB> {project.project_timeline}</p>         
-            </ProjStyledSubA>
-
-            <ProjStyledSubA>           
-              <p>
-                ${project.amount_raised}/${project.funding_amount}
-              </p>          
-            </ProjStyledSubA>
-            {props.role === 2 ? (
-              <ProjStyledSubB>             
-                <p>Click Here to Fund!</p>             
-              </ProjStyledSubB>
-            ) : null}
-          </ProjStyled>
-        ))}
-  </ProjListStyled>
+        {/* {projects.length > 0
+        ? projects.map((project) => {
+            console.log(project);
+            return <Project key={project.project_id} project={project} />;
+          })
+        : null} */}
+      </div>
+    </div>
   );
 };
 const mapStateToProps = (state) => {

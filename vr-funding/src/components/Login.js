@@ -2,48 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 
 import { connect } from "react-redux";
 import { setId, setRole } from "../actions/index";
 
-const TitleStyled = styled.div`
-  color: ${(pr) => pr.theme.secondaryColor};
-  font-size: 2.5rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-`;
-
-const LableAStyled = styled.div`
-  padding: 10px;
-  color: ${(pr) => pr.theme.secondaryColor};
-  display: flex;
-  flex-direction: row;
-  height: "25px";
-  width: "70%";
-  margin: " 2% auto";
-  justify-content: space-between;
-  align-content: space-between;
-`;
-
-const BtnsStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: space-between;
-  padding-bottom: 15px;
-`;
-
-const BtnSpacerStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-between;
-  align-content: space-between; */
-`;
+import { Button } from "antd";
 
 const schema = yup.object().shape({
-  mail: yup.string().required("Email field is required."),
+  email: yup.string().required("Email field is required."),
   password: yup
     .string()
     .required("Password field is required.")
@@ -69,19 +35,22 @@ const Login = (props) => {
     schema.isValid(loginValues).then((valid) => setDisabled(!valid));
   }, [loginValues]);
 
+  const handleChange = (e) => {
+    setLoginValues({
+      ...loginValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const loginSubmit = (evt) => {
     evt.preventDefault();
     const userCard = {
-      email: loginValues.username,
+      email: loginValues.email,
       password: loginValues.password,
     };
 
-    const testUser = {
-      email: "email@gmail.com",
-      password: "12345678",
-    };
     axios
-      .post("https://vr-fund.herokuapp.com/account/login", testUser)
+      .post("https://vr-fund.herokuapp.com/account/login", userCard)
       .then((res) => {
         window.localStorage.setItem("token", res.data.token);
         window.localStorage.setItem("role", res.data.role);
@@ -97,11 +66,9 @@ const Login = (props) => {
   };
   return (
     <div>
-      <TitleStyled>
-        <p>Sign In</p>
-      </TitleStyled>
+      <form onSubmit={loginSubmit}>
+        <h2>Sign In</h2>
 
-      <LableAStyled>
         <label
           style={{
             fontSize: "1.8rem",
@@ -118,10 +85,9 @@ const Login = (props) => {
           name="email"
           id="email"
           type="email"
+          value={loginValues.email}
+          onChange={handleChange}
         ></input>
-      </LableAStyled>
-
-      <LableAStyled>
         <label
           style={{
             fontSize: "1.8rem",
@@ -138,48 +104,24 @@ const Login = (props) => {
           name="password"
           id="password"
           type="password"
+          value={loginValues.password}
+          onChange={handleChange}
         ></input>
-      </LableAStyled>
 
-      <BtnsStyled>
-        <form onSubmit={loginSubmit}>
-          <a href=" ">Forgot your password?</a>
-          <br></br>
-          <button
-            // disabled={disabled}
-            style={{
-              fontSize: "2.4rem",
-              color: "#46e38f",
-              backgroundColor: "#615e5e",
-            }}
-          >
-            Sign in to SIXR
-          </button>
-          <br></br>
-          <br></br>
-          <BtnSpacerStyled>
-            <button
-              style={{
-                fontSize: "1rem",
-                color: "#46e38f",
-                backgroundColor: "#615e5e",
-              }}
-            >
-              Create Project
-            </button>
-            <div style={{ width: "7%" }}></div>
-            <button
-              style={{
-                fontSize: "1rem",
-                color: "#46e38f",
-                backgroundColor: "#615e5e",
-              }}
-            >
-              Fundable Projects
-            </button>
-          </BtnSpacerStyled>
-        </form>
-      </BtnsStyled>
+        <br></br>
+        <Button
+          // disabled={disabled}
+          style={{
+            fontSize: "2.4rem",
+            color: "#46e38f",
+            backgroundColor: "#615e5e",
+          }}
+        >
+          Sign in to SIXR
+        </Button>
+        <br></br>
+        <br></br>
+      </form>
     </div>
   );
 };
