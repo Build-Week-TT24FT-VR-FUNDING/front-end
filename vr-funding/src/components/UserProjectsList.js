@@ -12,12 +12,7 @@ const UserProjectsList = (props) => {
   return (
     <div>
       {props.userProjects.map((project) => {
-        return (
-          <div>
-            <UserProject project={project} key={project.project_id} />
-            <br />
-          </div>
-        );
+        return <UserProject project={project} key={project.project_id} />;
       })}
     </div>
   );
