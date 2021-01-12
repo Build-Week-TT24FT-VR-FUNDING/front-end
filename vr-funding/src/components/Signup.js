@@ -3,8 +3,6 @@ import axios from "axios";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 
-import { Button } from "antd";
-
 const schema = yup.object().shape({
   first_name: yup
     .string()
@@ -106,9 +104,6 @@ const Signup = () => {
       ...userList,
       users: [...userList.users, newUser],
     });
-
-    console.log(newUser);
-
     setFormValues(initialFormValues);
     axios
       .post("https://vr-fund.herokuapp.com/account/signup", newUser)
@@ -123,23 +118,25 @@ const Signup = () => {
 
   return (
     <div>
+      {/* Note: I will be using inline CSS temporarily to avoid merge conflicts until we can combine it on one stylesheet */}
+
       <form
         onSubmit={handleSubmit}
         style={{
-          display: "flex",
-          flexDirection: "column",
-          boxShadow: "5px 10px #363131",
-          margin: "2%",
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '5px 10px #363131',
+          margin: '2%',
         }}
       >
         <h1
           style={{
-            color: "#ebeae4",
-            fontSize: "2.5rem",
-            fontWeight: "bold",
-            width: "50%",
-            margin: "2% auto",
-            textAlign: "center",
+            color: '#ebeae4',
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
+            width: '50%',
+            margin: '2% auto',
+            textAlign: 'center',
           }}
         >
           Create a SIXR Account
@@ -153,17 +150,17 @@ const Signup = () => {
         </div>
         <section
           style={{
-            color: "#ebeae4",
-            width: "50%",
-            margin: "auto",
-            textAlign: "center",
-            fontSize: "1.8rem",
+            color: '#ebeae4',
+            width: '50%',
+            margin: 'auto',
+            textAlign: 'center',
+            fontSize: '1.8rem',
           }}
         >
           <p
             style={{
-              fontSize: "1.8rem",
-              fontWeight: "bold",
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
             }}
           >
             Select your role:
@@ -197,13 +194,13 @@ const Signup = () => {
         {/*Container for Name Label & First and Last Name Fields*/}
         <div
           style={{
-            display: "flex",
-            width: "70%",
-            margin: "2% auto",
-            justifyContent: "space-between",
-            color: "#ebeae4",
-            fontSize: "1.8rem",
-            fontWeight: "bold",
+            display: 'flex',
+            width: '70%',
+            margin: '2% auto',
+            justifyContent: 'space-between',
+            color: '#ebeae4',
+            fontSize: '1.8rem',
+            fontWeight: 'bold',
           }}
         >
           <label>Name</label>
@@ -261,9 +258,9 @@ const Signup = () => {
           {/*Email Address Label & Field*/}
           <label
             style={{
-              color: "#ebeae4",
-              fontSize: "1.8rem",
-              fontWeight: "bold",
+              color: '#ebeae4',
+              fontSize: '1.8rem',
+              fontWeight: 'bold',
             }}
             htmlFor="email"
           >
@@ -295,9 +292,9 @@ const Signup = () => {
           {/*Password Label & Field*/}
           <label
             style={{
-              color: "#ebeae4",
-              fontWeight: "bold",
-              fontSize: "1.8rem",
+              color: '#ebeae4',
+              fontWeight: 'bold',
+              fontSize: '1.8rem',
             }}
             htmlFor="password"
           >
@@ -315,11 +312,17 @@ const Signup = () => {
             onChange={handleChange}
           ></input>
         </div>
-        <p style={{ color: "#ebeae4", textAlign: "center" }}>
+        <p style={{ color: '#ebeae4', textAlign: 'center' }}>
           *Password must be at least 8 characters
         </p>
         {/*Create Account Button - On submit will send user data to API*/}
-        <Button disabled={disabled}>Create Account</Button>
+        <button disabled={disabled}  style={{width: "20%",margin: "2% auto", 
+                fontSize: "1rem",
+                color: "#46e38f",
+                backgroundColor: "#615e5e",
+              }}>
+          Create Account
+        </button>
       </form>
     </div>
   );

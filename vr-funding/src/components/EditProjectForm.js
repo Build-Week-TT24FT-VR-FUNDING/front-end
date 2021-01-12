@@ -4,8 +4,6 @@ import { fetchUserProjects } from "../actions/index";
 
 import axiosWithAuth from "../utils/axiosWithAuth";
 
-import { Button } from "antd";
-
 const EditProjectForm = ({ project, ...props }) => {
   const [targetProject, setTargetProject] = useState(project);
 
@@ -120,7 +118,7 @@ const EditProjectForm = ({ project, ...props }) => {
           </label>
         </div>
         <div className="submit">
-          <Button>Submit</Button>
+          <button>Submit</button>
         </div>
       </form>
     </div>

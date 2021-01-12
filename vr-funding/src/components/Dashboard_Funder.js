@@ -15,7 +15,7 @@ const Dashboard_Funder = (props) => {
     <div class="container">
       {uList.map((User) => (
         <div class="container">
-          <h2>Welcome, {User.email}</h2>
+          <h2>email here{User.email}</h2>
           <h2>role here{props.role}</h2>
           <div
             class="container"
